@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding-top: 10vh;
+            background-color: #f5683d;
+        }
+
+        .form-horizontal{
+            width: 250px;
+            height: auto;
+            padding: 20px 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 #000;
+            margin: auto;
+        }
+
+/*        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+        }*/
+        .col-sm-10 input{
+            width: 250px;
+            text-align: center;
+            background-color: #d3d3d3;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+        }
+        .form-group{
+            text-align: center;
+            margin-bottom: 15px;
+
+        }
+        button {
+          background-color: #4690fb;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+        }
+        button:hover {
+          opacity: 0.8;
+        }
+        span.psw {
+          float: right;
+         /* padding-top: 16px;*/
+        }
+
+        a{
+            text-decoration: none;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Login</h2>
+    <form class="form-horizontal" role="form" action="{% url 'login' %}" method="post" >
+        <div class="form-group {% if login_form.errors.username %}errorput{% endif %}">
+            <label for="username" class="col-sm-2 control-label"><b>Username</b></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="username" id="username" value="{{ login_form.username.value }}" placeholder="Mobile phone/Email">
+            </div>
+        </div>
+        <div class="form-group {% if login_form.errors.password %}errorput{% endif %}">
+            <label for="password" class="col-sm-2 control-label"><b>Password</b></label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" name="password" id="password" value="{{ login_form.password.value }}" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="error btns login-form-tips" id="jsLoginTips">
+            {% for key,error in login_form.errors.items %}
+            <div style="color: red">
+                <span>{{ key }}</span>: <span>{{ error }}</span>
+            </div>
+
+            {% endfor %}
+
+            {% if msg %}
+                Failed to login: {{ msg }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Login</button>
+            </div>
+        </div>
+    <div style="text-align: left;">
+        <a href="{% url 'register' %}">Register</a>
+        <span class="psw">Forget <a href="{% url 'forget_pwd' %}">password?</a></span>
+    </div>
+        {% csrf_token %}
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home Page</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding-top: 10vh;
+            background-color: #f5683d;
+        }
+        h1{
+
+            text-align: center;
+        }
+        ul{
+            text-align: center;
+            list-style-type: none;
+        }
+        ul li{
+            display: inline-block;
+            padding-right: 50px;
+            padding-top: 50px;
+            padding-left: 30px;
+        }
+        .container{
+            background-color: #fff;
+            width: 400px;
+            height: auto;
+            padding: 50px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 #000;
+            margin: auto;
+        }
+        ul li a{
+            text-decoration: none;
+            color: #fff;
+            /*padding: 5px 20px;*/
+            /*padding-right: 5px;*/
+            border: 1px;
+
+        }
+        a {
+          background-color: #4690fb;
+          color: white;
+          padding: 14px 20px;
+          /*margin: 8px 0;*/
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          text-decoration: none;
+        }
+        .a_tag{
+            padding-right: 10px;
+            text-align: center;
+        }
+        a:hover {
+          opacity: 0.8;
+        }
+        p{
+            text-align: center;
+            padding-right: 10px;
+            font-size: 20px;
+        }
+    </style>
+
+    <script language="JavaScript">
+        var timerIdle=0;   //空闲时间
+        var timerBusy=0;   //倒计时开始
+        var timerIdle1=5;  //系统参数定义超时时间
+        var timerBusy1=10*60; //退出时间
+
+        function timerTimeout(){
+            timerIdle++;
+            if (timerIdle>timerIdle1){
+              if (timerBusy==0){
+                    timerBusy=timerBusy1+1;
+            }
+            timerBusy--;
+            if (timerBusy<=0){
+                timerExit();
+                return;
+            }
+           }else{
+              timerBusy=0;
+           }
+           window.setTimeout("timerTimeout()",1000);
+        }
+
+          function timerExit()
+          {
+            window.location.replace("{% url 'login' %}");
+          }
+          window.setTimeout("timerTimeout()",1000);
+          function mouseMove(ev){
+            ev= ev || window.event;
+            timerUser();
+            var mousePos = mouseCoords(ev);
+          }
+
+
+        function mouseCoords(ev){
+          if(ev.pageX || ev.pageY){
+            return {x:ev.pageX, y:ev.pageY};
+          }
+          return {
+              x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+              y:ev.clientY + document.body.scrollTop - document.body.clientTop
+          };
+        }
+
+          document.onmousemove = mouseMove;
+          document.onkeydown = mouseMove;
+</script>
+
+</head>
+<body>
+  <div class="container">
+    <h1> Home Page </h1>
+
+    <div>
+         {% if user.is_authenticated %}
+
+            <p>Welcome，{{ user.get_username }}</p>
+            <div class="a_tag">
+                <a href="{% url 'logout' %}" >  Logout </a>
+            </div>
+         {% else %}
+         <ul>
+            <li><a href="/login/" class="btn btn-success">Login</a></li>
+            <li><a href="/register/" class="btn btn-primary">Register</a></li>
+        </ul>
+         {% endif %}
+    </div>
+  </div>
+</body>
+</html>

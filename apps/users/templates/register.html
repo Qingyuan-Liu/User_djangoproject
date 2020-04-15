@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+            *{margin: 0;padding: 0}
+        body{
+            background-color: #f5683d;
+            padding-top: 10vh;
+        }
+        .form-horizontal{
+            width: 250px;
+            height: auto;
+            padding: 20px 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 #000;
+            margin: auto;
+        }
+        .form-group{
+            text-align: center;
+            margin-bottom: 15px;
+
+        }
+        .col-sm-10 input{
+            width: 250px;
+            text-align: center;
+            background-color: #d3d3d3;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+       /* .btn-default i{
+            width: 250px;
+            text-align: center;
+        }*/
+
+        button{
+            width: 250px;
+            text-align: center;
+            background-color: #4690fb;
+            color: #fff;
+            padding: 8px 0px;
+            border: none;
+
+        }
+        a{
+            text-decoration: none;
+        }
+        h2{
+            text-align:center;
+        }
+        button:hover {
+          opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Register</h2><br>
+    <form class="form-horizontal" role="form" method="POST" action="{% url 'register' %}">
+        <div class="form-group {% if register_form.errors.email %}errorput{% endif %}">
+            <label  class="col-sm-2 control-label"><b>Email</b></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Please enter the email">
+            </div>
+        </div>
+        <div class="form-group {% if register_form.errors.password %}errorput{% endif %}">
+            <label  class="col-sm-2 control-label"><b>Password</b></label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Please enter the password">
+            </div>
+        </div>
+        <div class="form-group {% if register_form.errors.captcha %}errorput{% endif %}">
+            <div class="col-sm-10">
+                {{ register_form.captcha }}
+            </div>
+        </div>
+
+        <div class="error btns" id="jsEmailTips">
+            {% for key,error in register_form.errors.items %}
+                {{ key }} - {{ error }}
+            {% endfor %}
+            {{ msg }}
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-default">Register</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        {% csrf_token %}
+
+    </form>
+
+</body>
+</html>
